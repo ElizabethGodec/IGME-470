@@ -1,7 +1,3 @@
-/* ============================================================
-   IGME 470 — Physical Computing & Alt Interfaces — Course Journal
-   Design: muted steel blue, breadboard-rail motif
-   ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
@@ -34,7 +30,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Faint dotted breadboard texture across the whole page */
 body {
   background-image:
     radial-gradient(var(--pin) 1px, transparent 1px);
@@ -71,14 +66,13 @@ a:hover { color: var(--accent); }
   font-family: 'IBM Plex Mono', monospace;
 }
 
-/* ---------- Layout shell ---------- */
 .wrap {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 24px;
 }
 
-/* ---------- Breadboard rail (signature divider) ---------- */
+/* --signature divider-- */
 .rail {
   height: 14px;
   width: 100%;
@@ -89,7 +83,7 @@ a:hover { color: var(--accent); }
 }
 .rail.rail-top { margin-bottom: 0; }
 
-/* ---------- Header / nav ---------- */
+/* -- header/nav --*/
 header.site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
@@ -146,7 +140,7 @@ nav.site-nav a.active {
   color: var(--steel-deep);
 }
 
-/* ---------- Main / post list ---------- */
+/* -- main/post list -- */
 main { padding: 40px 0 80px; }
 
 .intro {
@@ -160,8 +154,6 @@ main { padding: 40px 0 80px; }
   gap: 18px;
 }
 
-/* Post preview card — styled like a component on a breadboard:
-   two "pins" on the left connect to a horizontal lead into the card. */
 .post-card {
   position: relative;
   display: block;
@@ -174,7 +166,6 @@ main { padding: 40px 0 80px; }
   transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
 }
 .post-card::before {
-  /* the two connector pins */
   content: "";
   position: absolute;
   left: 14px;
@@ -221,7 +212,7 @@ main { padding: 40px 0 80px; }
   color: var(--steel-dark);
 }
 
-/* ---------- Single post page ---------- */
+/* -- single post page --*/
 article.post {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -280,7 +271,7 @@ article.post a { font-weight: 500; }
   border-radius: 20px;
 }
 
-/* ---------- Footer ---------- */
+/* --footer -- */
 footer.site-footer {
   border-top: 1px solid var(--line);
   padding: 26px 0 40px;
@@ -290,13 +281,13 @@ footer.site-footer {
   font-size: 0.78rem;
 }
 
-/* ---------- Focus states (accessibility) ---------- */
+/* -- focus states (accessibility) -- */
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
-/* ---------- Responsive ---------- */
+/* -- responsive-- */
 @media (max-width: 600px) {
   .header-inner { padding: 22px 20px 18px; }
   .site-title { font-size: 1.6rem; }
@@ -304,7 +295,7 @@ a:focus-visible, button:focus-visible {
   .post-card { padding: 18px 18px 18px 34px; }
 }
 
-/* ---------- Reduced motion ---------- */
+/* -- reduced motion - */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .post-card { transition: none; }
