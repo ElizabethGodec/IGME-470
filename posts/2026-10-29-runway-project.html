@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Runway: Interactive Witch Hat</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.65;
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 28px 20px;
+      color: #282331;
+      background: #fff;
+    }
+
+    h1,
+    h2 {
+      color: #553276;
+    }
+
+    h1 {
+      line-height: 1.2;
+    }
+
+    h2 {
+      margin-top: 2rem;
+      border-bottom: 1px solid #e4dcea;
+      padding-bottom: .3rem;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    figure {
+      margin: 1.5rem 0;
+    }
+
+    figcaption {
+      color: #625a69;
+      font-size: .9rem;
+    }
+
+    pre {
+      background: #f3eff7;
+      border-radius: 8px;
+      padding: 18px;
+      overflow-x: auto;
+      font-size: .9rem;
+      line-height: 1.45;
+    }
+
+    .placeholder {
+      padding: 22px;
+      border: 2px dashed #a28ab5;
+      border-radius: 8px;
+      color: #655371;
+      background: #faf8fc;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Project Runway: Interactive Witch Hat</h1>
+    <h2>Project Goal</h2>
+    <p>For my Project Runway assignment, I wanted to create a wearable experience that used a familiar piece of clothing
+      in an interactive way. I chose a witch hat that could “cast a spell” when someone took it off and gently waved it.
+      Rather than requiring a traditional controller, the experience uses the natural actions of wearing, removing, and
+      moving the hat. A piezo speaker plays a magical sound effect when the spell is triggered.</p>
+    <h2>Experience Narrative</h2>
+    <p>The experience begins with the witch hat being worn. A push-button module inside the hat is pressed while the hat
+      is on the user's head. When the user removes the hat, the button is released and the system becomes ready to
+      detect a spell-casting motion. Once the hat is held in its starting orientation and then tilted, the piezo plays a
+      short magical melody. The sound plays only once per removal. Putting the hat back on presses the button again and
+      resets the interaction for the next spell.</p>
+    <h2>Materials</h2>
+    <ul>
+      <li>Witch hat</li>
+      <li>Arduino Uno</li>
+      <li>Breadboard and jumper wires</li>
+      <li>Four-pin tilt sensor and 10 kΩ resistor</li>
+      <li>Digital push-button module</li>
+      <li>Passive piezo speaker</li>
+      <li>Portable USB power bank and USB cable</li>
+      <li>Safety pins for securing the electronics within the hat's fabric</li>
+    </ul>
+    <h2>Development Process</h2>
+    <p>I started by testing the individual components before combining them. The tilt sensor detects a change in
+      orientation, the piezo produces sound through the Arduino's <code>tone()</code> function, and the push button
+      determines whether the hat is being worn. I initially tested a small push button on the breadboard, then replaced
+      it with a larger digital push-button module that would be easier to position inside the hat.</p>
+    <p>The new button module worked differently from the original button: it read HIGH when pressed and LOW when
+      released. I updated the code to match that behavior. I also tested the entire circuit with a portable power bank
+      so the hat could work without being connected to a computer.</p>
+    <p>One of the biggest parts of the process was designing the sound. I tried several different magical effects,
+      including bright, sparkling notes and darker, mysterious tones. Some versions sounded too much like a video game,
+      while others had rapid notes or pitch sweeps that sounded robotic. I eventually chose a slower sound with an eerie
+      beginning, a gradual rise in pitch, and a sustained final note to represent the spell being released.</p>
+    <h2>Assembling the Wearable</h2>
+    <p>The hat already had two decorative, stretchy fabric straps around the base of its pointed section. Although these
+      were not actual pockets because they were open at the bottom, I realized I could use them to conceal the
+      electronics. I slid the Arduino into one side and pulled the fabric up and over it. I used safety pins to make the
+      bottom opening smaller so the board could not slide out and to keep the fabric stretched over the Arduino.</p>
+    <p>I used the strap on the other side to hold the portable battery pack in the same way. The push-button module was
+      harder to conceal, but I could tuck it into the fabric for the demonstration. Using the existing straps let me
+      hide much of the electronics without permanently changing the hat.</p>
+    <figure><img src="../media/proj-runway/proj_run_witch-hat1.jpeg"
+        alt="Purple witch hat showing the decorative fabric strap used to conceal electronics, with some wiring visible.">
+      <figcaption>Final witch hat, showing the fabric strap and some of the concealed wiring.</figcaption>
+    </figure>
+    <figure><img src="../media/proj-runway/proj_run_witch-hat2.jpeg"
+        alt="Purple velvet witch hat viewed from another side, with a crescent moon and sun charm hanging from the tip.">
+      <figcaption>Another view of the completed witch hat.</figcaption>
+    </figure>
+
+    <h2>Circuit Schematic</h2>
+    <img src="../media/proj-runway/ProjectRunwayDiagram.jpeg"
+      alt="Tinkercad circuit diagram showing the Arduino Uno, tilt sensor, push button, piezo speaker, and wiring."
+      class="post-image">
+
+    <h2>Testing and Final Result</h2>
+    <p>After putting everything together, I tested the complete interaction while wearing the hat. The button detects
+      when the hat is on, removing the hat enables the spell, and tilting it triggers the magical sound. The sound plays
+      once, and putting the hat back on resets the experience. I also confirmed that the setup works using the portable
+      power bank.</p>
+
+    <h2>Demonstration Video</h2>
+    <video controls width="100%">
+      <source src="../media/proj-runway/proj-run_witch-hat-demo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <h2>Final Arduino Code</h2>
+
+    <pre><code>const int tiltPin = 8;
+const int piezoPin = 9;
+const int buttonPin = 2;
+
+bool readyToCast = false;
+bool spellCast = false;
+
+void setup() {
+  pinMode(tiltPin, INPUT);
+  pinMode(piezoPin, OUTPUT);
+  pinMode(buttonPin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int tiltState = digitalRead(tiltPin);
+  int buttonState = digitalRead(buttonPin);
+
+  // Button pressed: hat is being worn.
+  if (buttonState == HIGH) {
+    readyToCast = false;
+    spellCast = false;
+  } else {
+    // Button released: hat has been removed.
+    if (tiltState == HIGH) {
+      readyToCast = true;
+    }
+
+    if (tiltState == LOW &amp;&amp; readyToCast &amp;&amp; !spellCast) {
+      Serial.println("Magic spell cast!");
+      playWitchSpell();
+      spellCast = true;
+    }
+  }
+
+  delay(50);
+}
+
+void playWitchSpell() {
+  // Mysterious opening.
+  tone(piezoPin, 220, 400);
+  delay(500);
+  tone(piezoPin, 233, 400);
+  delay(500);
+  tone(piezoPin, 311, 500);
+  delay(600);
+
+  // Slow magical buildup.
+  tone(piezoPin, 370, 450);
+  delay(550);
+  tone(piezoPin, 466, 450);
+  delay(550);
+  tone(piezoPin, 554, 500);
+  delay(600);
+  tone(piezoPin, 698, 550);
+  delay(650);
+
+  // Final transition and spell release.
+  tone(piezoPin, 932, 550);
+  delay(550);
+  tone(piezoPin, 1175, 750);
+  delay(800);
+
+  noTone(piezoPin);
+}</code></pre>
+    <h2>Reflection</h2>
+    <p>I'm happy that the final project works the way I intended. The most interesting challenge was making the sound
+      feel magical rather than like a series of electronic beeps. Testing different notes and pacing helped me create a
+      sound that better fits the experience.</p>
+    <p>Attaching the electronics was another challenge. The fabric straps turned out to be useful for hiding the Arduino
+      and battery, but the extra weight makes the hat noticeably heavier, and the hat itself feels a little small. The
+      button is also not as hidden as I would ideally like. If I continued working on this project, I would look for a
+      more comfortable way to mount the electronics and conceal the button. Even with those limitations, the hat
+      successfully turns a familiar costume accessory into an interactive spell-casting experience.</p>
+
+    <h2>References and Credits</h2>
+    <ul>
+      <li>
+        <a href="https://docs.arduino.cc/language-reference/" target="_blank" rel="noopener noreferrer">
+          Arduino Language Reference
+        </a> – Reference for Arduino functions including
+        digitalRead(), pinMode(), tone(), and delay().
+      </li>
+
+      <li>
+        <a href="https://www.tinkercad.com/" target="_blank" rel="noopener noreferrer">
+          Autodesk Tinkercad
+        </a> – Used to create the circuit diagram.
+      </li>
+
+      <li>
+        Physical Computing course sensor kit – Provided several
+        electronic components used in the project.
+      </li>
+
+      <li>
+        Spirit Halloween – Bought super cute witch hat from.
+      </li>
+    </ul>
+
+</body>
+
+</html>
